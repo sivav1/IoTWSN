@@ -59,9 +59,9 @@ mqttc.loop_start()                                          # Start the loop
 while 1==1:
     sleep(5)
     if connflag == True:
-	[ temp,hum ] = dht(dht_sensor_port,dht_sensor_type)
-	t = str(temp)
-	h = str(hum)
+	    [ temp,hum ] = dht(dht_sensor_port,dht_sensor_type)
+	    t = str(temp)
+	    h = str(hum)
         mqttc.publish("temperature|humidity", t + "|" + h, qos=1)
         #mqttc.publish("humidity", hum, qos=1)  
         print("msg sent: temperature " + "%.2f" % temp )
