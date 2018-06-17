@@ -12,6 +12,7 @@ import re
 import argparse
 import sys
 import os
+import socket
 
 gworg = ''
 gwdevtype = ''
@@ -135,17 +136,35 @@ class _paireddevice():
         if args.info:
             print "Aborting"
     def report(self,tag,value=None):
+        reading = ''
 #        print "report",self.addr, self.friendlyname, tag, value
         if is_float(value):
-            print '{"deviceuid":"'+self.addr+'","devicename":"'+self.friendlyname+'","'+tag+'":'+str(value)+'}'
+            reading = '{"deviceuid":"'+self.addr+'","devicename":"'+self.friendlyname+'","'+tag+'":'+str(value)+'}'
         else:
             if not isinstance(value, basestring):
                 # a lit of numbers
 #                print "["+",".join([str(x) for x in value])+"]"
-                print '{"deviceuid":"'+self.addr+'","devicename":"'+self.friendlyname+'","'+tag+'":'+"["+",".join([str(x) for x in value])+"]"+'}'
+                reading = '{"deviceuid":"'+self.addr+'","devicename":"'+self.friendlyname+'","'+tag+'":'+"["+",".join([str(x) for x in value])+"]"+'}'
             else:
                 # a simple string
-                print '{"deviceuid":"'+self.addr+'","devicename":"'+self.friendlyname+'","'+tag+'":"'+str(value)+'"}'
+                reading = '{"deviceuid":"'+self.addr+'","devicename":"'+self.friendlyname+'","'+tag+'":"'+str(value)+'"}'
+        
+        UDP_IP = "127.0.0.1"
+
+        UDP_Port = 5005
+
+        print "UDP target IP:", UDP_IP
+
+        print "UDP target port:", UDP_Port
+
+        print "message:", reading
+
+        sock = socket.socket(socket.AF_INET, # Internet
+
+        socket.SOCK_DGRAM) # UDP
+
+        sock.sendto(reading, (UDP_IP, UDP_Port))
+
         sys.stdout.flush()
 
 # this is a generic sensortag
@@ -289,7 +308,7 @@ if not args.fast and not args.medium and not args.slow:
     # no setting specified - use the defaults
     args.medium = None
     args.slow = None
-    args.fast = ['accelerometer','lightmeter']
+    args.fast = ['accelerometer','lightmeter', 'humidity', 'IRtemperature']
     
 if args.info:
     print args.fast
