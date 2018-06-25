@@ -159,9 +159,7 @@ class _paireddevice():
 
         print "message:", reading
 
-        sock = socket.socket(socket.AF_INET, # Internet
-
-        socket.SOCK_DGRAM) # UDP
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
 
         sock.sendto(reading, (UDP_IP, UDP_Port))
 

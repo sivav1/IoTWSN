@@ -1,4 +1,9 @@
 {
-    "ip": "127.0.0.1",
-    "port": 5005
+    "ip": "192.168.43.206",
+    "port": 5005,
+    "fast": ["IRtemperature", "gyroscope"],
+    "medium": [],
+    "slow": [],
+    "devices": ["54:6c:0e:80:57:07=sensor1", "54:6c:0e:80:58:07=sensor2"],
+    "name": "ST-"
 }
